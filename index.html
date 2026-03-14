@@ -1,0 +1,703 @@
+<!DOCTYPE html>
+<html lang="sa">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sanskrit Varṇamālā Mandala</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=Noto+Serif+Devanagari:wght@300;400;500;600;700&display=swap');
+
+:root {
+  --bg: #06050f;
+  --gold: #c9a84c;
+  --gold-dim: rgba(201,168,76,0.35);
+  --cream: #f0eada;
+  /* Place colours */
+  --guttural:  #e8665a;
+  --palatal:   #e8a83a;
+  --cerebral:  #52c87e;
+  --dental:    #4a90d8;
+  --labial:    #c46ad8;
+  --semivowel: #3ec8c0;
+  --sibilant:  #a0d84a;
+  --aspirate:  #d4a055;
+  /* Vowel colours */
+  --v-short:   #f5c842;
+  --v-long:    #f5883a;
+  --v-diphth:  #72b8f0;
+  --v-special: #b890e0;
+}
+
+* { margin:0; padding:0; box-sizing:border-box; }
+
+body {
+  background: var(--bg);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-family: 'EB Garamond', serif;
+  overflow-x: hidden;
+}
+
+/* ── HEADER ─────────────────────────────────────────── */
+header {
+  text-align: center;
+  padding: 30px 20px 10px;
+  position: relative;
+}
+.h-en {
+  font-family: 'Cinzel', serif;
+  font-weight: 700;
+  font-size: clamp(0.95rem, 2.5vw, 1.7rem);
+  letter-spacing: 0.28em;
+  color: var(--gold);
+  text-transform: uppercase;
+}
+.h-sa {
+  font-family: 'Noto Serif Devanagari', serif;
+  font-size: clamp(1.1rem, 2.8vw, 2rem);
+  color: rgba(201,168,76,0.6);
+  margin-top: 2px;
+  letter-spacing: 0.06em;
+}
+.h-sub {
+  font-family: 'EB Garamond', serif;
+  font-style: italic;
+  color: rgba(201,168,76,0.3);
+  font-size: 0.8rem;
+  letter-spacing: 0.25em;
+  margin-top: 4px;
+}
+.pi-badge {
+  display: inline-block;
+  font-family: 'Cinzel', serif;
+  font-size: 0.62rem;
+  letter-spacing: 0.15em;
+  color: rgba(201,168,76,0.45);
+  border: 1px solid rgba(201,168,76,0.2);
+  border-radius: 20px;
+  padding: 2px 10px;
+  margin-top: 6px;
+}
+
+/* ── CHART ───────────────────────────────────────────── */
+.wrap { width: min(95vw, 860px); aspect-ratio: 1; margin: 4px auto 0; }
+svg { width: 100%; height: 100%; overflow: visible; }
+
+/* ── TOOLTIP ─────────────────────────────────────────── */
+#tt {
+  position: fixed;
+  background: rgba(6,5,15,0.97);
+  border: 1px solid rgba(201,168,76,0.35);
+  border-radius: 10px;
+  padding: 13px 16px;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.15s;
+  z-index: 999;
+  min-width: 215px;
+  max-width: 270px;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.8);
+}
+#tt.on { opacity: 1; pointer-events: auto; }
+.tt-cat {
+  font-family: 'Cinzel', serif;
+  font-size: 0.58rem;
+  color: rgba(201,168,76,0.45);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  margin-bottom: 4px;
+}
+.tt-dev {
+  font-family: 'Noto Serif Devanagari', serif;
+  font-size: 2.2rem;
+  color: var(--cream);
+  line-height: 1.1;
+  margin-bottom: 1px;
+}
+.tt-rom {
+  font-family: 'EB Garamond', serif;
+  font-style: italic;
+  font-size: 1rem;
+  color: rgba(201,168,76,0.75);
+  margin-bottom: 5px;
+}
+.tt-name {
+  font-family: 'Cinzel', serif;
+  font-size: 0.68rem;
+  color: rgba(240,234,218,0.75);
+  letter-spacing: 0.08em;
+  margin-bottom: 3px;
+}
+.tt-desc {
+  font-size: 0.74rem;
+  color: rgba(240,234,218,0.55);
+  line-height: 1.55;
+  margin-bottom: 7px;
+}
+.tt-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+.tt-tag {
+  font-family: 'Cinzel', serif;
+  font-size: 0.57rem;
+  letter-spacing: 0.1em;
+  padding: 2px 9px;
+  border-radius: 20px;
+  color: var(--cream);
+  background: rgba(201,168,76,0.08);
+  border: 1px solid rgba(201,168,76,0.2);
+}
+.tt-play {
+  pointer-events: auto;
+  cursor: pointer;
+  background: rgba(201,168,76,0.12);
+  border: 1px solid rgba(201,168,76,0.3);
+  border-radius: 50%;
+  width: 28px; height: 28px;
+  display: flex; align-items: center; justify-content: center;
+  transition: background 0.15s, transform 0.1s;
+  flex-shrink: 0;
+}
+.tt-play:hover { background: rgba(201,168,76,0.28); transform: scale(1.1); }
+.tt-play svg { width: 12px; height: 12px; fill: var(--gold); }
+.tt-play.playing { background: rgba(201,168,76,0.35); }
+
+/* ── LEGEND ──────────────────────────────────────────── */
+.legend {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 5px 20px;
+  padding: 14px 20px 32px;
+  max-width: 860px;
+}
+.leg {
+  display: flex; align-items: center; gap: 6px;
+  font-family: 'Cinzel', serif;
+  font-size: 0.58rem;
+  color: rgba(240,234,218,0.45);
+  letter-spacing: 0.07em;
+}
+.leg-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+
+/* ── AUDIO STATUS ────────────────────────────────────── */
+#audio-status {
+  font-family: 'EB Garamond', serif;
+  font-style: italic;
+  font-size: 0.75rem;
+  color: rgba(201,168,76,0.35);
+  text-align: center;
+  padding: 4px 0 10px;
+  letter-spacing: 0.1em;
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="h-en">Sanskrit Varṇamālā</div>
+  <div class="h-sa">संस्कृत वर्णमाला</div>
+  <div class="h-sub">The Garland of Sounds · Structural Mandala</div>
+  <div class="pi-badge">π · 3.14159 · Pi Day 2026 · Happy Pi Day !</div>
+</header>
+
+<div id="audio-status">Checking speech synthesis…</div>
+<div class="wrap"><svg id="svg" viewBox="-420 -420 840 840"></svg></div>
+<div id="tt"></div>
+<div class="legend" id="legend"></div>
+
+<script>
+// ═══════════════════════════════════════════════════════════════════
+// AUDIO  —  Web Speech API synthesis
+// ═══════════════════════════════════════════════════════════════════
+let synthAvailable = false;
+let currentUtterance = null;
+
+function initSpeech() {
+  if ('speechSynthesis' in window) {
+    synthAvailable = true;
+    document.getElementById('audio-status').textContent =
+      '🔊 Audio ready — hover a letter and press ▶ to hear it';
+    // warm up
+    window.speechSynthesis.getVoices();
+  } else {
+    document.getElementById('audio-status').textContent =
+      'Audio unavailable in this browser';
+  }
+}
+
+function speak(devanagari, romanized) {
+  if (!synthAvailable) return;
+  window.speechSynthesis.cancel();
+  // Try to speak the Devanagari; browsers with a hi-IN voice will
+  // pronounce it correctly. Fall back to romanized if needed.
+  const voices = window.speechSynthesis.getVoices();
+  const hiVoice = voices.find(v => v.lang.startsWith('hi') || v.lang.startsWith('sa'));
+
+  const utt = new SpeechSynthesisUtterance(devanagari);
+  utt.lang = hiVoice ? hiVoice.lang : 'hi-IN';
+  utt.rate = 0.75;
+  utt.pitch = 1.0;
+  utt.volume = 1.0;
+  if (hiVoice) utt.voice = hiVoice;
+
+  const btn = document.querySelector('.tt-play');
+  if (btn) btn.classList.add('playing');
+  utt.onend = () => { if (btn) btn.classList.remove('playing'); };
+  utt.onerror = () => { if (btn) btn.classList.remove('playing'); };
+
+  window.speechSynthesis.speak(utt);
+}
+
+window.addEventListener('load', () => {
+  initSpeech();
+  if ('speechSynthesis' in window) {
+    window.speechSynthesis.onvoiceschanged = initSpeech;
+  }
+});
+
+// ═══════════════════════════════════════════════════════════════════
+// DATA
+// ═══════════════════════════════════════════════════════════════════
+
+// ── Vowels (svarāḥ) — 14 phonemic vowels
+const VOWELS = [
+  { dev:'अ',  rom:'a',   type:'short',   skt:'hṛsva a',    desc:'Short open central vowel · the primordial sound',          place:'Kaṇṭhya (Guttural)' },
+  { dev:'आ',  rom:'ā',   type:'long',    skt:'dīrgha ā',   desc:'Long open central vowel · sustained breath',              place:'Kaṇṭhya (Guttural)' },
+  { dev:'इ',  rom:'i',   type:'short',   skt:'hṛsva i',    desc:'Short front close vowel',                                  place:'Tālavya (Palatal)' },
+  { dev:'ई',  rom:'ī',   type:'long',    skt:'dīrgha ī',   desc:'Long front close vowel',                                  place:'Tālavya (Palatal)' },
+  { dev:'उ',  rom:'u',   type:'short',   skt:'hṛsva u',    desc:'Short back close vowel',                                  place:'Oṣṭhya (Labial)' },
+  { dev:'ऊ',  rom:'ū',   type:'long',    skt:'dīrgha ū',   desc:'Long back close vowel',                                   place:'Oṣṭhya (Labial)' },
+  { dev:'ऋ',  rom:'ṛ',   type:'short',   skt:'hṛsva ṛ',    desc:'Short vocalic R · mūrdhanya',                             place:'Mūrdhanya (Cerebral)' },
+  { dev:'ॠ',  rom:'ṝ',   type:'long',    skt:'dīrgha ṝ',   desc:'Long vocalic R',                                          place:'Mūrdhanya (Cerebral)' },
+  { dev:'ऌ',  rom:'ḷ',   type:'short',   skt:'hṛsva ḷ',    desc:'Short vocalic L · dental',                               place:'Dantya (Dental)' },
+  { dev:'ए',  rom:'e',   type:'diphth',  skt:'e',          desc:'Long palatal vowel · dīrgha · sandhi of a+i',             place:'Kaṇṭha-tālavya' },
+  { dev:'ऐ',  rom:'ai',  type:'diphth',  skt:'ai',         desc:'Diphthong ai · plūta · sandhi of a+e',                   place:'Kaṇṭha-tālavya' },
+  { dev:'ओ',  rom:'o',   type:'diphth',  skt:'o',          desc:'Long labial vowel · dīrgha · sandhi of a+u',             place:'Kaṇṭhoṣṭhya' },
+  { dev:'औ',  rom:'au',  type:'diphth',  skt:'au',         desc:'Diphthong au · plūta · sandhi of a+o',                   place:'Kaṇṭhoṣṭhya' },
+  { dev:'अं', rom:'aṃ',  type:'special', skt:'anusvāra',   desc:'Nasalisation of the preceding vowel · bindu',            place:'Nāsikya' },
+  { dev:'अः', rom:'aḥ',  type:'special', skt:'visarga',    desc:'Voiceless glottal fricative · aspiration of vowel',      place:'Visarjanīya' },
+];
+
+// ── Classified consonants — 5 vargas × 5 = 25
+// manner: 1=Hard-NA (alpaprāṇa karkasha), 2=Hard-A (mahāprāṇa karkasha),
+//         3=Soft-NA (alpaprāṇa mṛdu), 4=Soft-A (mahāprāṇa mṛdu), 5=Nasal
+const CLASSIFIED = [
+  // ka-varga (Guttural / Kaṇṭhya)
+  { dev:'क', rom:'ka',  place:'Guttural',  placeS:'Kaṇṭhya',   manner:1, mannerS:'Alpaprāṇa · karkasha', desc:'Non-aspirated voiceless velar stop' },
+  { dev:'ख', rom:'kha', place:'Guttural',  placeS:'Kaṇṭhya',   manner:2, mannerS:'Mahāprāṇa · karkasha', desc:'Aspirated voiceless velar stop' },
+  { dev:'ग', rom:'ga',  place:'Guttural',  placeS:'Kaṇṭhya',   manner:3, mannerS:'Alpaprāṇa · mṛdu',    desc:'Non-aspirated voiced velar stop' },
+  { dev:'घ', rom:'gha', place:'Guttural',  placeS:'Kaṇṭhya',   manner:4, mannerS:'Mahāprāṇa · mṛdu',    desc:'Aspirated voiced velar stop' },
+  { dev:'ङ', rom:'ṅa',  place:'Guttural',  placeS:'Kaṇṭhya',   manner:5, mannerS:'Anunāsika · nasal',    desc:'Voiced velar nasal' },
+  // ca-varga (Palatal / Tālavya)
+  { dev:'च', rom:'ca',  place:'Palatal',   placeS:'Tālavya',   manner:1, mannerS:'Alpaprāṇa · karkasha', desc:'Non-aspirated voiceless palatal affricate' },
+  { dev:'छ', rom:'cha', place:'Palatal',   placeS:'Tālavya',   manner:2, mannerS:'Mahāprāṇa · karkasha', desc:'Aspirated voiceless palatal affricate' },
+  { dev:'ज', rom:'ja',  place:'Palatal',   placeS:'Tālavya',   manner:3, mannerS:'Alpaprāṇa · mṛdu',    desc:'Non-aspirated voiced palatal affricate' },
+  { dev:'झ', rom:'jha', place:'Palatal',   placeS:'Tālavya',   manner:4, mannerS:'Mahāprāṇa · mṛdu',    desc:'Aspirated voiced palatal affricate' },
+  { dev:'ञ', rom:'ña',  place:'Palatal',   placeS:'Tālavya',   manner:5, mannerS:'Anunāsika · nasal',    desc:'Voiced palatal nasal' },
+  // ṭa-varga (Cerebral / Mūrdhanya)
+  { dev:'ट', rom:'ṭa',  place:'Cerebral',  placeS:'Mūrdhanya', manner:1, mannerS:'Alpaprāṇa · karkasha', desc:'Non-aspirated voiceless retroflex stop' },
+  { dev:'ठ', rom:'ṭha', place:'Cerebral',  placeS:'Mūrdhanya', manner:2, mannerS:'Mahāprāṇa · karkasha', desc:'Aspirated voiceless retroflex stop' },
+  { dev:'ड', rom:'ḍa',  place:'Cerebral',  placeS:'Mūrdhanya', manner:3, mannerS:'Alpaprāṇa · mṛdu',    desc:'Non-aspirated voiced retroflex stop' },
+  { dev:'ढ', rom:'ḍha', place:'Cerebral',  placeS:'Mūrdhanya', manner:4, mannerS:'Mahāprāṇa · mṛdu',    desc:'Aspirated voiced retroflex stop' },
+  { dev:'ण', rom:'ṇa',  place:'Cerebral',  placeS:'Mūrdhanya', manner:5, mannerS:'Anunāsika · nasal',    desc:'Voiced retroflex nasal' },
+  // ta-varga (Dental / Dantya)
+  { dev:'त', rom:'ta',  place:'Dental',    placeS:'Dantya',    manner:1, mannerS:'Alpaprāṇa · karkasha', desc:'Non-aspirated voiceless dental stop' },
+  { dev:'थ', rom:'tha', place:'Dental',    placeS:'Dantya',    manner:2, mannerS:'Mahāprāṇa · karkasha', desc:'Aspirated voiceless dental stop' },
+  { dev:'द', rom:'da',  place:'Dental',    placeS:'Dantya',    manner:3, mannerS:'Alpaprāṇa · mṛdu',    desc:'Non-aspirated voiced dental stop' },
+  { dev:'ध', rom:'dha', place:'Dental',    placeS:'Dantya',    manner:4, mannerS:'Mahāprāṇa · mṛdu',    desc:'Aspirated voiced dental stop' },
+  { dev:'न', rom:'na',  place:'Dental',    placeS:'Dantya',    manner:5, mannerS:'Anunāsika · nasal',    desc:'Voiced dental nasal' },
+  // pa-varga (Labial / Oṣṭhya)
+  { dev:'प', rom:'pa',  place:'Labial',    placeS:'Oṣṭhya',   manner:1, mannerS:'Alpaprāṇa · karkasha', desc:'Non-aspirated voiceless bilabial stop' },
+  { dev:'फ', rom:'pha', place:'Labial',    placeS:'Oṣṭhya',   manner:2, mannerS:'Mahāprāṇa · karkasha', desc:'Aspirated voiceless bilabial stop' },
+  { dev:'ब', rom:'ba',  place:'Labial',    placeS:'Oṣṭhya',   manner:3, mannerS:'Alpaprāṇa · mṛdu',    desc:'Non-aspirated voiced bilabial stop' },
+  { dev:'भ', rom:'bha', place:'Labial',    placeS:'Oṣṭhya',   manner:4, mannerS:'Mahāprāṇa · mṛdu',    desc:'Aspirated voiced bilabial stop' },
+  { dev:'म', rom:'ma',  place:'Labial',    placeS:'Oṣṭhya',   manner:5, mannerS:'Anunāsika · nasal',    desc:'Voiced bilabial nasal' },
+];
+
+// ── Unclassified (avargīya) — 9
+const UNCLASSIFIED = [
+  { dev:'य', rom:'ya',  place:'SemiVowel', placeS:'Antasthā',  manner:0, mannerS:'Semi-vowel · antasthā',  desc:'Voiced palatal approximant' },
+  { dev:'र', rom:'ra',  place:'SemiVowel', placeS:'Antasthā',  manner:0, mannerS:'Semi-vowel · antasthā',  desc:'Voiced retroflex flap' },
+  { dev:'ल', rom:'la',  place:'SemiVowel', placeS:'Antasthā',  manner:0, mannerS:'Semi-vowel · antasthā',  desc:'Voiced dental lateral approximant' },
+  { dev:'व', rom:'va',  place:'SemiVowel', placeS:'Antasthā',  manner:0, mannerS:'Semi-vowel · antasthā',  desc:'Voiced labio-dental approximant' },
+  { dev:'श', rom:'śa',  place:'Sibilant',  placeS:'Ūṣmāṇa',   manner:0, mannerS:'Sibilant · ūṣmāṇa',     desc:'Voiceless palatal fricative' },
+  { dev:'ष', rom:'ṣa',  place:'Sibilant',  placeS:'Ūṣmāṇa',   manner:0, mannerS:'Sibilant · ūṣmāṇa',     desc:'Voiceless retroflex fricative' },
+  { dev:'स', rom:'sa',  place:'Sibilant',  placeS:'Ūṣmāṇa',   manner:0, mannerS:'Sibilant · ūṣmāṇa',     desc:'Voiceless dental fricative' },
+  { dev:'ह', rom:'ha',  place:'Aspirate',  placeS:'Ūṣmāṇa',   manner:0, mannerS:'Aspirate',               desc:'Voiced glottal fricative' },
+  { dev:'ळ', rom:'ḷa',  place:'SemiVowel', placeS:'Antasthā',  manner:0, mannerS:'Semi-vowel · Vedic',     desc:'Voiced retroflex lateral · Vedic form' },
+];
+
+// ── Colour map
+const PC = {
+  Guttural:  '#e86055', Palatal: '#e8a830', Cerebral: '#48c870',
+  Dental:    '#4888d8', Labial:  '#c060d0',
+  SemiVowel: '#38c8c0', Sibilant:'#98d840', Aspirate: '#d4a050',
+};
+const VC = { short:'#f5c030', long:'#f08030', diphth:'#60b0f0', special:'#b088e0' };
+
+// Manner → opacity for the concentric sub-rings
+// 5 manners mapped to 5 sub-rings inside the manner band
+const MANNER_OP = [0.88, 0.55, 0.28, 0.55, 0.82]; // indexed 0..4 (manner 1..5)
+
+// ═══════════════════════════════════════════════════════════════════
+// RADII
+// ═══════════════════════════════════════════════════════════════════
+const K = {
+  ctrR: 44,
+  // Vowel ring
+  vI: 50,   vO: 116,
+  // Manner ring — 5 equal sub-bands
+  mI: 120,  mO: 238,
+  // Letter + name outer band
+  nmI: 242, nmO: 378,
+  // Place label radius
+  plR: 393,
+  rim: 406,
+};
+const mBand = (K.mO - K.mI) / 5; // width of each manner sub-ring
+
+// ═══════════════════════════════════════════════════════════════════
+// ANGULAR LAYOUT
+// ═══════════════════════════════════════════════════════════════════
+// 5 classified groups (5 each) + 1 unclassified group (9)
+// Gaps: 4° between classified groups, 6° before unclassified
+// Total gap = 4×4 + 6 = 22°  →  available = 338°  ÷ 34 = 9.941°/consonant
+
+const GG = 4;    // group gap °
+const UG = 6;    // extra gap before unclassified °
+const SG = 0.45; // segment inner gap °
+
+const totalGap = 4*GG + UG;
+const avail = 360 - totalGap;
+const segW = avail / 34; // ~9.94° per consonant
+
+let cur = 0;
+const segs = [];
+
+const GROUPS = [
+  { label:'KAṆṬHYA',  labelDev:'कण्ठ्य',  sublabel:'Guttural',  items: CLASSIFIED.slice(0,5) },
+  { label:'TĀLAVYA',  labelDev:'तालव्य',  sublabel:'Palatal',   items: CLASSIFIED.slice(5,10) },
+  { label:'MŪRDHANYA',labelDev:'मूर्धन्य', sublabel:'Cerebral',  items: CLASSIFIED.slice(10,15) },
+  { label:'DANTYA',   labelDev:'दन्त्य',  sublabel:'Dental',    items: CLASSIFIED.slice(15,20) },
+  { label:'OṢṬHYA',   labelDev:'ओष्ठ्य',  sublabel:'Labial',    items: CLASSIFIED.slice(20,25) },
+  { label:'AVARGĪYA', labelDev:'अवर्गीय', sublabel:'Unclassified', items: UNCLASSIFIED },
+];
+
+GROUPS.forEach((grp, gi) => {
+  grp.aStart = cur;
+  grp.items.forEach(item => {
+    const aS = cur, aE = cur + segW;
+    segs.push({ data:item, aS, aE, grp:grp.label });
+    cur = aE;
+  });
+  grp.aEnd = cur;
+  if (gi < 4) cur += GG;
+  else if (gi === 4) cur += GG + UG;
+});
+
+// Vowels — full 360° in inner ring
+const vSegW = 360 / VOWELS.length;
+
+// ═══════════════════════════════════════════════════════════════════
+// SVG HELPERS
+// ═══════════════════════════════════════════════════════════════════
+const SV = document.getElementById('svg');
+const NS = 'http://www.w3.org/2000/svg';
+const mk = (t, a={}) => {
+  const e = document.createElementNS(NS, t);
+  for (const [k,v] of Object.entries(a)) e.setAttribute(k, v);
+  return e;
+};
+
+function AP(r1, r2, aS, aE) {
+  const s = (aS-90)*Math.PI/180, e2 = (aE-90)*Math.PI/180;
+  const lg = (aE-aS) > 180 ? 1 : 0;
+  const P = (r,a) => `${+(r*Math.cos(a)).toFixed(3)},${+(r*Math.sin(a)).toFixed(3)}`;
+  return `M${P(r1,s)}L${P(r2,s)}A${r2},${r2},0,${lg},1,${P(r2,e2)}L${P(r1,e2)}A${r1},${r1},0,${lg},0,${P(r1,s)}Z`;
+}
+
+function circ(r, stroke, sw, fill='none', op=1) {
+  const c = mk('circle',{cx:0,cy:0,r,fill,stroke,'stroke-width':sw});
+  if (op < 1) c.setAttribute('opacity', op);
+  SV.appendChild(c);
+}
+
+// ═══════════════════════════════════════════════════════════════════
+// BUILD SVG
+// ═══════════════════════════════════════════════════════════════════
+
+// Defs + background glow
+const defs = mk('defs');
+const rg = mk('radialGradient',{id:'bg',cx:'50%',cy:'50%',r:'50%'});
+[[0,'rgba(201,168,76,0.08)'],[.5,'rgba(201,168,76,0.02)'],[1,'rgba(0,0,0,0)']].forEach(([o,c])=>{
+  const s=mk('stop',{offset:o}); s.setAttribute('stop-color',c); rg.appendChild(s);
+});
+defs.appendChild(rg);
+SV.appendChild(defs);
+SV.appendChild(mk('circle',{cx:0,cy:0,r:K.rim+20,fill:'url(#bg)'}));
+
+// Ring borders
+const GCOL = 'rgba(201,168,76,0.18)';
+const GBOLD = 'rgba(201,168,76,0.42)';
+[K.vI,K.vO,K.mI,K.mO,K.nmI,K.nmO].forEach(r => {
+  const bold = (r===K.vO || r===K.mI || r===K.nmO);
+  circ(r, bold ? GBOLD : GCOL, bold ? 1.3 : 0.55);
+});
+// Manner sub-ring borders
+for (let m=1; m<5; m++) {
+  circ(K.mI + m*mBand, 'rgba(201,168,76,0.12)', 0.5);
+}
+// Outer rim
+circ(K.rim, 'rgba(201,168,76,0.20)', 3);
+
+// Outer tick marks — one per segment
+segs.forEach((s,i) => {
+  const a = ((s.aS+s.aE)/2 - 90) * Math.PI/180;
+  SV.appendChild(mk('line',{
+    x1:+(Math.cos(a)*(K.rim+1)).toFixed(2), y1:+(Math.sin(a)*(K.rim+1)).toFixed(2),
+    x2:+(Math.cos(a)*(K.rim+6)).toFixed(2), y2:+(Math.sin(a)*(K.rim+6)).toFixed(2),
+    stroke:'rgba(201,168,76,0.22)','stroke-width':0.8
+  }));
+});
+
+// Layers
+const gV=mk('g'), gM=mk('g'), gNm=mk('g'), gLbl=mk('g'), gHit=mk('g');
+[gV, gM, gNm, gLbl, gHit].forEach(g => SV.appendChild(g));
+
+// ── CONSONANT SEGMENTS
+let currentTooltipData = null;
+
+segs.forEach((seg, i) => {
+  const { data:r, aS, aE } = seg;
+  const col = PC[r.place] || '#a0a8b0';
+  const midA = (aS+aE)/2;
+  const mRad = (midA-90)*Math.PI/180;
+  const flip = midA > 180;
+  const rot  = flip ? midA-90+180 : midA-90;
+  const s = aS+SG/2, e = aE-SG/2;
+
+  // Manner sub-ring (for classified, only the relevant band lights up)
+  if (r.manner >= 1 && r.manner <= 5) {
+    const mi = r.manner - 1;
+    const r1 = K.mI + mi*mBand + 0.5;
+    const r2 = K.mI + (mi+1)*mBand - 0.5;
+    gM.appendChild(mk('path',{d:AP(r1,r2,s,e), fill:col,
+      'fill-opacity': MANNER_OP[mi],
+      stroke:col,'stroke-width':0.35,'stroke-opacity':0.4}));
+  } else {
+    // Unclassified — soft fill across full manner band
+    gM.appendChild(mk('path',{d:AP(K.mI,K.mO,s,e), fill:col,
+      'fill-opacity':0.22, stroke:col,'stroke-width':0.35,'stroke-opacity':0.4}));
+  }
+
+  // Name band bg
+  gNm.appendChild(mk('path',{d:AP(K.nmI,K.nmO,s,e), fill:col,
+    'fill-opacity':0.10, stroke:col,'stroke-width':0.4,'stroke-opacity':0.28}));
+
+  // Devanāgarī letter
+  const devR = K.nmI + (K.nmO-K.nmI)*0.42;
+  const [dx,dy] = [devR*Math.cos(mRad), devR*Math.sin(mRad)];
+  const dt = mk('text',{x:dx,y:dy, fill:'rgba(240,234,218,0.92)',
+    'font-family':'Noto Serif Devanagari,serif','font-size':'20',
+    'font-weight':'500','text-anchor':'middle','dominant-baseline':'middle',
+    transform:`rotate(${rot},${dx},${dy})`});
+  dt.textContent = r.dev;
+  gLbl.appendChild(dt);
+
+  // Romanization
+  const romR = K.nmI + (K.nmO-K.nmI)*0.74;
+  const [rx,ry] = [romR*Math.cos(mRad), romR*Math.sin(mRad)];
+  const rt = mk('text',{x:rx,y:ry, fill:`${col}cc`,
+    'font-family':'EB Garamond,serif','font-style':'italic','font-size':'9.5',
+    'text-anchor':'middle','dominant-baseline':'middle',
+    transform:`rotate(${rot},${rx},${ry})`});
+  rt.textContent = r.rom;
+  gLbl.appendChild(rt);
+
+  // Hit
+  const hit = mk('path',{d:AP(K.mI,K.nmO,s,e), fill:'transparent',stroke:'none',cursor:'pointer'});
+  hit.addEventListener('mouseenter', e2 => {
+    currentTooltipData = { r, col };
+    showTT(e2, r, col);
+    hit.setAttribute('fill','rgba(255,255,255,0.045)');
+  });
+  hit.addEventListener('mousemove', moveTT);
+  hit.addEventListener('mouseleave', () => {
+    hideTT(); hit.setAttribute('fill','transparent');
+  });
+  gHit.appendChild(hit);
+});
+
+// ── GROUP DIVIDERS + PLACE LABELS
+GROUPS.forEach((grp, gi) => {
+  const dA = (grp.aStart-90)*Math.PI/180;
+  SV.appendChild(mk('line',{
+    x1:+(K.vO*Math.cos(dA)).toFixed(2),  y1:+(K.vO*Math.sin(dA)).toFixed(2),
+    x2:+(K.nmO*Math.cos(dA)).toFixed(2), y2:+(K.nmO*Math.sin(dA)).toFixed(2),
+    stroke:'rgba(201,168,76,0.55)','stroke-width':1.3
+  }));
+  const midA = (grp.aStart+grp.aEnd)/2;
+  const ar = (midA-90)*Math.PI/180;
+  const flip = midA > 180;
+  const rot = flip ? midA-90+180 : midA-90;
+  const [cx,cy] = [K.plR*Math.cos(ar), K.plR*Math.sin(ar)];
+  const col = PC[grp.items[0]?.place] || '#a8c9d4';
+
+  // English label
+  const ct = mk('text',{x:cx,y:cy, fill:col,
+    'font-family':'Cinzel,serif','font-size':'7.8','font-weight':'600',
+    'letter-spacing':'0.8','text-anchor':'middle','dominant-baseline':'middle',
+    transform:`rotate(${rot},${cx},${cy})`});
+  ct.textContent = grp.label;
+  SV.appendChild(ct);
+
+  // Devanāgarī sub-label slightly offset
+  const [cx2,cy2] = [(K.plR+13)*Math.cos(ar), (K.plR+13)*Math.sin(ar)];
+  const ct2 = mk('text',{x:cx2,y:cy2, fill:`${col}66`,
+    'font-family':'Noto Serif Devanagari,serif','font-size':'7',
+    'text-anchor':'middle','dominant-baseline':'middle',
+    transform:`rotate(${rot},${cx2},${cy2})`});
+  ct2.textContent = grp.labelDev;
+  SV.appendChild(ct2);
+});
+
+// Final divider after last segment
+const lastA = (segs[segs.length-1].aE - 90)*Math.PI/180;
+SV.appendChild(mk('line',{
+  x1:+(K.vO*Math.cos(lastA)).toFixed(2),  y1:+(K.vO*Math.sin(lastA)).toFixed(2),
+  x2:+(K.nmO*Math.cos(lastA)).toFixed(2), y2:+(K.nmO*Math.sin(lastA)).toFixed(2),
+  stroke:'rgba(201,168,76,0.55)','stroke-width':1.3
+}));
+
+// ── MANNER SUB-RING LABELS (at ~359° in the narrow gap)
+const mLabels = ['Hard · Non-asp','Hard · Asp','Soft · Non-asp','Soft · Asp','Nasal'];
+const mColors = ['rgba(255,220,180,0.7)','rgba(255,200,140,0.6)','rgba(200,230,255,0.6)','rgba(180,210,255,0.65)','rgba(200,255,200,0.65)'];
+mLabels.forEach((lbl,mi) => {
+  const r = K.mI + (mi+0.5)*mBand;
+  const ang = 359.6, a = (ang-90)*Math.PI/180;
+  const [x,y] = [r*Math.cos(a), r*Math.sin(a)];
+  const t = mk('text',{x,y, fill:mColors[mi],
+    'font-family':'Cinzel,serif','font-size':'5.2','font-weight':'600',
+    'text-anchor':'middle','dominant-baseline':'middle',
+    transform:`rotate(${ang-90},${x},${y})`});
+  t.textContent = lbl;
+  SV.appendChild(t);
+});
+
+// ── VOWEL RING
+VOWELS.forEach((v, i) => {
+  const aS = i*vSegW + 0.3;
+  const aE = (i+1)*vSegW - 0.3;
+  const midA = (aS+aE)/2;
+  const mRad = (midA-90)*Math.PI/180;
+  const flip = midA > 180;
+  const rot  = flip ? midA-90+180 : midA-90;
+  const col  = VC[v.type];
+
+  gV.appendChild(mk('path',{d:AP(K.vI,K.vO,aS,aE), fill:col,
+    'fill-opacity':0.25, stroke:col,'stroke-width':0.5,'stroke-opacity':0.55}));
+
+  const devR = (K.vI+K.vO)/2 - 1;
+  const [dx,dy] = [devR*Math.cos(mRad), devR*Math.sin(mRad)];
+  const dt = mk('text',{x:dx,y:dy, fill:'rgba(240,234,218,0.92)',
+    'font-family':'Noto Serif Devanagari,serif','font-size':'15',
+    'font-weight':'400','text-anchor':'middle','dominant-baseline':'middle',
+    transform:`rotate(${rot},${dx},${dy})`});
+  dt.textContent = v.dev;
+  gLbl.appendChild(dt);
+
+  // Hit
+  const hit = mk('path',{d:AP(K.vI,K.vO,aS,aE), fill:'transparent',stroke:'none',cursor:'pointer'});
+  hit.addEventListener('mouseenter', e2 => {
+    showTT(e2, {...v, place:'Svara', placeS:v.place, mannerS:v.skt}, col);
+    hit.setAttribute('fill','rgba(255,255,255,0.07)');
+  });
+  hit.addEventListener('mousemove', moveTT);
+  hit.addEventListener('mouseleave', () => { hideTT(); hit.setAttribute('fill','transparent'); });
+  gHit.appendChild(hit);
+});
+
+// ── CENTRE
+SV.appendChild(mk('circle',{cx:0,cy:0,r:K.ctrR, fill:'#070510',stroke:'rgba(201,168,76,0.45)','stroke-width':1.5}));
+SV.appendChild(mk('circle',{cx:0,cy:0,r:K.ctrR-8, fill:'none',stroke:'rgba(201,168,76,0.10)','stroke-width':0.8}));
+
+const omT = mk('text',{x:0,y:5, fill:'rgba(201,168,76,0.82)',
+  'font-family':'Noto Serif Devanagari,serif','font-size':'28','font-weight':'300',
+  'text-anchor':'middle','dominant-baseline':'middle'});
+omT.textContent = 'ॐ';
+SV.appendChild(omT);
+
+// ═══════════════════════════════════════════════════════════════════
+// TOOLTIP
+// ═══════════════════════════════════════════════════════════════════
+const ttEl = document.getElementById('tt');
+let ttData = null;
+
+function showTT(e, r, col) {
+  ttData = { r, col };
+  const isVowel = r.place === 'Svara';
+  ttEl.innerHTML = `
+    <div class="tt-cat">${isVowel ? 'SVARA · VOWEL' : `VYAÑJANA · ${(r.placeS||r.place).toUpperCase()}`}</div>
+    <div class="tt-dev">${r.dev}</div>
+    <div class="tt-rom">${r.rom}</div>
+    <div class="tt-name">${r.mannerS || r.skt || ''}</div>
+    <div class="tt-desc">${r.desc || ''}</div>
+    <div class="tt-footer">
+      <span class="tt-tag" style="border-color:${col}55;color:${col}">${r.placeS||r.place}</span>
+      <button class="tt-play" onclick="speak('${r.dev}','${r.rom}')" title="Play pronunciation">
+        <svg viewBox="0 0 10 12" xmlns="http://www.w3.org/2000/svg">
+          <polygon points="0,0 10,6 0,12"/>
+        </svg>
+      </button>
+    </div>`;
+  ttEl.classList.add('on');
+  moveTT(e);
+}
+
+function moveTT(e) {
+  let x=e.clientX+16, y=e.clientY+16;
+  if(x+275>window.innerWidth)  x=e.clientX-285;
+  if(y+200>window.innerHeight) y=e.clientY-210;
+  ttEl.style.left=x+'px'; ttEl.style.top=y+'px';
+}
+
+function hideTT() { ttEl.classList.remove('on'); }
+
+// ═══════════════════════════════════════════════════════════════════
+// LEGEND
+// ═══════════════════════════════════════════════════════════════════
+const leg = document.getElementById('legend');
+const legData = [
+  { col:'#f5c030', lbl:'Short vowel · hṛsva' },
+  { col:'#f08030', lbl:'Long vowel · dīrgha' },
+  { col:'#60b0f0', lbl:'Diphthong · plūta' },
+  { col:'#b088e0', lbl:'Special · anusvāra / visarga' },
+  { col:'', lbl:'─── Consonants by place ───' },
+  { col:PC.Guttural,  lbl:'Guttural · Kaṇṭhya' },
+  { col:PC.Palatal,   lbl:'Palatal · Tālavya' },
+  { col:PC.Cerebral,  lbl:'Cerebral · Mūrdhanya' },
+  { col:PC.Dental,    lbl:'Dental · Dantya' },
+  { col:PC.Labial,    lbl:'Labial · Oṣṭhya' },
+  { col:PC.SemiVowel, lbl:'Semi-vowel · Antasthā' },
+  { col:PC.Sibilant,  lbl:'Sibilant · Ūṣmāṇa' },
+  { col:PC.Aspirate,  lbl:'Aspirate · Ha' },
+];
+legData.forEach(({col,lbl}) => {
+  const d = document.createElement('div'); d.className='leg';
+  if(col) {
+    d.innerHTML=`<div class="leg-dot" style="background:${col}"></div>${lbl}`;
+  } else {
+    d.style.cssText='color:rgba(201,168,76,0.3);font-size:0.55rem;letter-spacing:0.05em;';
+    d.textContent = lbl;
+  }
+  leg.appendChild(d);
+});
+</script>
+</body>
+</html>
