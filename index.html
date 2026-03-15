@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Sanskrit Varṇamālā Mandala · v1.0</title>
+<title>Sanskrit Varṇamālā Mandala · v2.0</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=Noto+Serif+Devanagari:wght@300;400;500;600&display=swap');
 
@@ -163,6 +163,33 @@ footer{display:flex;flex-wrap:wrap;justify-content:center;
   letter-spacing:0.12em;transition:color 0.4s;
 }
 
+/* ── PHONEME KEY ── */
+.tt-translit-wrap{
+  margin:6px 0 4px;
+  padding:7px 10px;
+  background:rgba(168,201,212,0.06);
+  border-left:2px solid var(--header-title);
+  border-radius:0 5px 5px 0;
+}
+.tt-translit-head{
+  font-family:'Cinzel',serif;font-size:0.53rem;
+  letter-spacing:0.14em;color:var(--tt-cat);
+  text-transform:uppercase;margin-bottom:4px;
+}
+.tt-translit-word{
+  font-family:'EB Garamond',serif;
+  font-size:1.05rem;line-height:1.3;
+  color:var(--tt-desc);
+}
+.tt-translit-word .ph-hi{
+  color:var(--header-title);font-weight:700;
+  font-size:1.18rem;
+}
+.tt-translit-unique{
+  font-family:'EB Garamond',serif;font-style:italic;
+  font-size:0.78rem;color:var(--tt-desc);opacity:0.7;
+}
+
 /* ── PRINT ── */
 @media print{
   .toggle-wrap{display:none!important;}
@@ -183,7 +210,7 @@ footer{display:flex;flex-wrap:wrap;justify-content:center;
   <div class="h-en">Sanskrit Varṇamālā</div>
   <div class="h-sa">संस्कृत वर्णमाला</div>
   <div class="h-sub">The Garland of Sounds · Structural Mandala</div>
-  <div class="pi-badge">π · v1.0 · Pi Day · 14 March 2026</div>
+  <div class="pi-badge">π · v2.0 · Phoneme Key</div>
 </header>
 
 <div class="wrap"><svg id="svg" viewBox="-420 -420 840 840"></svg></div>
@@ -456,6 +483,105 @@ function buildChart(){
   omT.textContent='ॐ'; SV.appendChild(omT);
 }
 
+// ── PHONEME KEY DATA (vowels + consonants)
+const TRANSLIT_KEY = {
+  // ── Vowels
+  'a':   { word:'about',      highlight:'a'  },
+  'ā':   { word:'calm',       highlight:'a'  },
+  'i':   { word:'little',     highlight:'i'  },
+  'ī':   { word:'green',      highlight:'ee' },
+  'u':   { word:'put',        highlight:'u'  },
+  'ū':   { word:'moon',       highlight:'oo' },
+  'ṛ':   { word:'Krishna',    highlight:'r'  },
+  'ṝ':   null,                               // rare — long ṛ, no English equiv
+  'ḷ':   null,                               // rare Vedic vowel
+  'e':   { word:'day',        highlight:'a'  },
+  'ai':  { word:'light',      highlight:'i'  },
+  'o':   { word:'home',       highlight:'o'  },
+  'au':  { word:'flower',     highlight:'ow' },
+  'aṃ':  { word:'Om',         highlight:'m'  },
+  'aḥ':  { word:'aha',        highlight:'h'  },
+
+  // ── Gutturals (ka-varga)
+  'ka':  { word:'kind',       highlight:'k'  },
+  'kha': { word:'backhand',   highlight:'kh' },
+  'ga':  { word:'garden',     highlight:'g'  },
+  'gha': { word:'loghouse',   highlight:'gh' },
+  'ṅa':  { word:'single',     highlight:'ng' },
+
+  // ── Palatals (ca-varga)
+  'ca':  { word:'cheer',      highlight:'ch' },
+  'cha': { word:'churchhall', highlight:'ch' },
+  'ja':  { word:'joy',        highlight:'j'  },
+  'jha': { word:'bridgehead', highlight:'dh' },
+  'ña':  { word:'canyon',     highlight:'ny' },
+
+  // ── Cerebrals (ṭa-varga)
+  'ṭa':  { word:'stable',     highlight:'t'  },
+  'ṭha': { word:'lighthouse', highlight:'th' },
+  'ḍa':  { word:'ladder',     highlight:'dd' },
+  'ḍha': { word:'redhill',    highlight:'dh' },
+  'ṇa':  { word:'corner',     highlight:'rn' },
+
+  // ── Dentals (ta-varga)
+  'ta':  { word:'path',       highlight:'th' },
+  'tha': { word:'thrive',     highlight:'th' },
+  'da':  { word:'that',       highlight:'th' },
+  'dha': { word:'breathe',    highlight:'the'},
+  'na':  { word:'nature',     highlight:'n'  },
+
+  // ── Labials (pa-varga)
+  'pa':  { word:'peace',      highlight:'p'  },
+  'pha': { word:'uphill',     highlight:'ph' },
+  'ba':  { word:'bloom',      highlight:'bl' },
+  'bha': { word:'clubhouse',  highlight:'bh' },
+  'ma':  { word:'morning',    highlight:'m'  },
+
+  // ── Semi-vowels (antasthā)
+  'ya':  { word:'yoga',       highlight:'y'  },
+  'ra':  { word:'river',      highlight:'r'  },
+  'la':  { word:'light',      highlight:'l'  },
+  'va':  { word:'victory',    highlight:'v'  },
+  'ḷa':  { word:'bottle',     highlight:'tt' },  // Vedic ḻ
+
+  // ── Sibilants (ūṣmāṇa)
+  'śa':  { word:'shine',      highlight:'sh' },
+  'ṣa':  { word:'shower',     highlight:'sh' },
+  'sa':  { word:'sun',        highlight:'s'  },
+
+  // ── Aspirate
+  'ha':  { word:'harmony',    highlight:'h'  },
+
+  // ── Conjuncts / special
+  'kṣa': { word:'Lakshmi',    highlight:'ksh'},
+  'tra': { word:'three',      highlight:'thr'},
+  'jña': null,                               // unique Sanskrit sound
+};
+
+function buildTranslitHTML(rom) {
+  if (!(rom in TRANSLIT_KEY)) return '';
+  const entry = TRANSLIT_KEY[rom];
+  let inner;
+  if (!entry) {
+    inner = `<span class="tt-translit-unique">Unique Sanskrit sound — no exact English equivalent</span>`;
+  } else {
+    const { word, highlight } = entry;
+    const idx = word.toLowerCase().indexOf(highlight.toLowerCase());
+    if (idx === -1) {
+      inner = `<span class="tt-translit-word">${word}</span>`;
+    } else {
+      const before = word.slice(0, idx);
+      const match  = word.slice(idx, idx + highlight.length);
+      const after  = word.slice(idx + highlight.length);
+      inner = `<span class="tt-translit-word">${before}<span class="ph-hi">${match}</span>${after}</span>`;
+    }
+  }
+  return `<div class="tt-translit-wrap">
+    <div class="tt-translit-head">Sounds like · English key</div>
+    ${inner}
+  </div>`;
+}
+
 // ── TOOLTIP
 const ttEl=document.getElementById('tt');
 function showTT(e,r,col){
@@ -466,6 +592,7 @@ function showTT(e,r,col){
     <div class="tt-rom">${r.rom}</div>
     <div class="tt-name">${r.mannerS||r.skt||''}</div>
     <div class="tt-desc">${r.desc||''}</div>
+    ${buildTranslitHTML(isVowel ? r.rom : r.rom)}
     <span class="tt-tag" style="border-color:${col}55;color:${col}">${r.placeS||r.place}</span>`;
   ttEl.classList.add('on'); moveTT(e);
 }
