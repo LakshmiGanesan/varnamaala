@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Sanskrit Varṇamālā Mandala · v2.0</title>
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=Noto+Serif+Devanagari:wght@300;400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Gentium+Plus:ital,wght@0,400;0,700;1,400;1,700&family=Noto+Serif+Devanagari:wght@300;400;500;600&display=swap');
 
 /* ── CSS VARIABLES — dark (default) ── */
 :root {
@@ -81,7 +81,7 @@ html.light {
 body{
   background:var(--bg);
   display:flex;flex-direction:column;align-items:center;
-  min-height:100vh;font-family:'EB Garamond',serif;
+  min-height:100vh;font-family:'Gentium Plus',serif;
   transition:background 0.4s;
 }
 
@@ -103,18 +103,24 @@ body{
 
 /* ── HEADER ── */
 header{text-align:center;padding:28px 20px 6px;}
-.h-en{
-  font-family:'Cinzel',serif;font-weight:700;
-  font-size:clamp(1rem,2.5vw,1.7rem);letter-spacing:0.25em;
-  color:var(--header-title);text-transform:uppercase;transition:color 0.4s;
-}
 .h-sa{
-  font-family:'Noto Serif Devanagari',serif;
-  font-size:clamp(1rem,2.6vw,1.8rem);color:var(--header-sub);
-  margin-top:2px;letter-spacing:0.05em;transition:color 0.4s;
+  font-family:'Noto Serif Devanagari',serif;font-weight:600;
+  font-size:clamp(1.2rem,3vw,2rem);color:var(--header-title);
+  letter-spacing:0.05em;transition:color 0.4s;
+}
+.h-rom{
+  font-family:'Gentium Plus',serif;font-style:italic;
+  font-size:clamp(0.75rem,1.6vw,1.1rem);color:var(--header-sub);
+  margin-top:2px;letter-spacing:0.12em;transition:color 0.4s;
+}
+.h-en{
+  font-family:'Cinzel',serif;font-weight:400;
+  font-size:clamp(0.6rem,1.2vw,0.78rem);letter-spacing:0.26em;
+  color:var(--header-sub);text-transform:uppercase;
+  margin-top:2px;opacity:0.7;transition:color 0.4s;
 }
 .h-sub{
-  font-family:'EB Garamond',serif;font-style:italic;
+  font-family:'Gentium Plus',serif;font-style:italic;
   color:var(--header-sub);font-size:0.8rem;letter-spacing:0.22em;margin-top:3px;
 }
 .pi-badge{
@@ -139,7 +145,7 @@ svg{width:100%;height:100%;overflow:visible;}
   letter-spacing:.16em;text-transform:uppercase;margin-bottom:4px;}
 .tt-dev{font-family:'Noto Serif Devanagari',serif;font-size:2.4rem;
   color:var(--tt-dev);line-height:1.1;margin-bottom:1px;}
-.tt-rom{font-family:'EB Garamond',serif;font-style:italic;font-size:1rem;
+.tt-rom{font-family:'Gentium Plus',serif;font-style:italic;font-size:1rem;
   color:var(--tt-rom);margin-bottom:4px;}
 .tt-name{font-family:'Cinzel',serif;font-size:.66rem;color:var(--tt-name);
   letter-spacing:.08em;margin-bottom:3px;}
@@ -155,16 +161,16 @@ footer{display:flex;flex-wrap:wrap;justify-content:center;
   font-size:.58rem;color:var(--leg-text);letter-spacing:.06em;transition:color 0.4s;}
 .leg-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
 .leg-text-wrap{display:flex;flex-direction:column;gap:1px;}
-.leg-en{font-family:'Cinzel',serif;font-size:.58rem;letter-spacing:.06em;color:var(--leg-text);}
-.leg-sa{font-family:'Noto Serif Devanagari',serif;font-size:.60rem;color:var(--badge-text);letter-spacing:.02em;}
-.leg-rom{font-family:'EB Garamond',serif;font-style:italic;font-size:.60rem;color:var(--badge-text);opacity:0.7;}
+.leg-en{font-family:'Cinzel',serif;font-size:.52rem;letter-spacing:.08em;color:var(--leg-text);opacity:0.6;}
+.leg-sa{font-family:'Noto Serif Devanagari',serif;font-size:.72rem;color:var(--header-title);font-weight:500;letter-spacing:.02em;}
+.leg-rom{font-family:'Gentium Plus',serif;font-style:italic;font-size:.62rem;color:var(--badge-text);opacity:0.75;}
 .leg-div{width:100%;text-align:center;color:var(--badge-text);
   font-size:.54rem;letter-spacing:.1em;padding:2px 0;font-family:'Cinzel',serif;}
 .leg-div-sa{font-family:'Noto Serif Devanagari',serif;font-size:.58rem;
   display:block;opacity:0.6;letter-spacing:.02em;}
 .attribution{
   width:100%;text-align:center;padding:12px 0 28px;
-  font-family:'EB Garamond',serif;font-style:italic;
+  font-family:'Gentium Plus',serif;font-style:italic;
   font-size:0.78rem;color:var(--attr-text);
   letter-spacing:0.12em;transition:color 0.4s;
 }
@@ -183,7 +189,7 @@ footer{display:flex;flex-wrap:wrap;justify-content:center;
   text-transform:uppercase;margin-bottom:4px;
 }
 .tt-translit-word{
-  font-family:'EB Garamond',serif;
+  font-family:'Gentium Plus',serif;
   font-size:1.05rem;line-height:1.3;
   color:var(--tt-desc);
 }
@@ -192,7 +198,7 @@ footer{display:flex;flex-wrap:wrap;justify-content:center;
   font-size:1.18rem;
 }
 .tt-translit-unique{
-  font-family:'EB Garamond',serif;font-style:italic;
+  font-family:'Gentium Plus',serif;font-style:italic;
   font-size:0.78rem;color:var(--tt-desc);opacity:0.7;
 }
 
@@ -213,10 +219,11 @@ footer{display:flex;flex-wrap:wrap;justify-content:center;
 </div>
 
 <header>
-  <div class="h-en">Sanskrit Varṇamālā</div>
   <div class="h-sa">संस्कृत वर्णमाला</div>
+  <div class="h-rom">saṃskṛta varṇamālā</div>
+  <div class="h-en">Sanskrit Varṇamālā</div>
   <div class="h-sub">The Garland of Sounds · Structural Mandala</div>
-  <div class="pi-badge">π · v2.0 · Phoneme Key</div>
+  <div class="pi-badge">v2.0 · Phoneme Key</div>
 </header>
 
 <div class="wrap"><svg id="svg" viewBox="-420 -420 840 840"></svg></div>
@@ -407,7 +414,7 @@ function buildChart(){
     const romR=K.nmI+(K.nmO-K.nmI)*0.70;
     const[rx,ry]=[romR*Math.cos(mRad),romR*Math.sin(mRad)];
     const rt=mk('text',{x:rx,y:ry,fill:`${col}${cv('--rom-opacity')}`,
-      'font-family':'EB Garamond,serif','font-style':'italic','font-size':'9.5',
+      'font-family':'Gentium Plus,serif','font-style':'italic','font-size':'9.5',
       'text-anchor':'middle','dominant-baseline':'middle',transform:`rotate(${rot},${rx},${ry})`});
     rt.textContent=r.rom; gLbl.appendChild(rt);
 
@@ -622,16 +629,16 @@ const footer=document.getElementById('footer');
 ].forEach(item=>{
   if(!item){
     const d=document.createElement('div');d.className='leg-div';
-    d.innerHTML=`── Consonants by place ──<span class="leg-div-sa">व्यञ्जनानि · vyañjanāni</span>`;
+    d.innerHTML=`<span class="leg-div-sa">व्यञ्जनानि · vyañjanāni</span>── Consonants by place ──`;
     footer.appendChild(d);return;
   }
   const d=document.createElement('div');d.className='leg';
   d.innerHTML=`
     <div class="leg-dot" style="background:${item.col}"></div>
     <div class="leg-text-wrap">
-      <span class="leg-en">${item.en}</span>
       <span class="leg-sa">${item.sa}</span>
       <span class="leg-rom">${item.rom}</span>
+      <span class="leg-en">${item.en}</span>
     </div>`;
   footer.appendChild(d);
 });
