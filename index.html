@@ -154,8 +154,14 @@ footer{display:flex;flex-wrap:wrap;justify-content:center;
 .leg{display:flex;align-items:center;gap:6px;font-family:'Cinzel',serif;
   font-size:.58rem;color:var(--leg-text);letter-spacing:.06em;transition:color 0.4s;}
 .leg-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
+.leg-text-wrap{display:flex;flex-direction:column;gap:1px;}
+.leg-en{font-family:'Cinzel',serif;font-size:.58rem;letter-spacing:.06em;color:var(--leg-text);}
+.leg-sa{font-family:'Noto Serif Devanagari',serif;font-size:.60rem;color:var(--badge-text);letter-spacing:.02em;}
+.leg-rom{font-family:'EB Garamond',serif;font-style:italic;font-size:.60rem;color:var(--badge-text);opacity:0.7;}
 .leg-div{width:100%;text-align:center;color:var(--badge-text);
   font-size:.54rem;letter-spacing:.1em;padding:2px 0;font-family:'Cinzel',serif;}
+.leg-div-sa{font-family:'Noto Serif Devanagari',serif;font-size:.58rem;
+  display:block;opacity:0.6;letter-spacing:.02em;}
 .attribution{
   width:100%;text-align:center;padding:12px 0 28px;
   font-family:'EB Garamond',serif;font-style:italic;
@@ -600,26 +606,33 @@ function hideTT(){ ttEl.classList.remove('on'); }
 // ── LEGEND
 const footer=document.getElementById('footer');
 [
-  {col:'#f5c030',lbl:'Short vowel · hṛsva'},
-  {col:'#f08030',lbl:'Long vowel · dīrgha'},
-  {col:'#60b0f0',lbl:'Diphthong · plūta'},
-  {col:'#b088e0',lbl:'Special · anusvāra / visarga'},
+  {col:'#f5c030', en:'Short vowel',  sa:'ह्रस्वस्वरः',        rom:'hṛsvasvaraḥ'},
+  {col:'#f08030', en:'Long vowel',   sa:'दीर्घस्वरः',         rom:'dīrghasvaraḥ'},
+  {col:'#60b0f0', en:'Diphthong',    sa:'प्लुतस्वरः',         rom:'plūtasvaraḥ'},
+  {col:'#b088e0', en:'Special',      sa:'अनुस्वारः / विसर्गः',rom:'anusvāraḥ / visargaḥ'},
   null,
-  {col:PC.Guttural, lbl:'Guttural · Kaṇṭhya'},
-  {col:PC.Palatal,  lbl:'Palatal · Tālavya'},
-  {col:PC.Cerebral, lbl:'Cerebral · Mūrdhanya'},
-  {col:PC.Dental,   lbl:'Dental · Dantya'},
-  {col:PC.Labial,   lbl:'Labial · Oṣṭhya'},
-  {col:PC.SemiVowel,lbl:'Semi-vowel · Antasthā'},
-  {col:PC.Sibilant, lbl:'Sibilant · Ūṣmāṇa'},
-  {col:PC.Aspirate, lbl:'Aspirate'},
+  {col:PC.Guttural,  en:'Guttural',   sa:'कण्ठ्याः',   rom:'kaṇṭhyāḥ'},
+  {col:PC.Palatal,   en:'Palatal',    sa:'तालव्याः',   rom:'tālavyāḥ'},
+  {col:PC.Cerebral,  en:'Cerebral',   sa:'मूर्धन्याः', rom:'mūrdhanyāḥ'},
+  {col:PC.Dental,    en:'Dental',     sa:'दन्त्याः',   rom:'dantyāḥ'},
+  {col:PC.Labial,    en:'Labial',     sa:'ओष्ठ्याः',   rom:'oṣṭhyāḥ'},
+  {col:PC.SemiVowel, en:'Semi-vowel', sa:'अन्तस्थाः',  rom:'antasthāḥ'},
+  {col:PC.Sibilant,  en:'Sibilant',   sa:'ऊष्माणः',    rom:'ūṣmāṇaḥ'},
+  {col:PC.Aspirate,  en:'Aspirate',   sa:'महाप्राणः',  rom:'mahāprāṇaḥ'},
 ].forEach(item=>{
   if(!item){
     const d=document.createElement('div');d.className='leg-div';
-    d.textContent='── Consonants by place ──';footer.appendChild(d);return;
+    d.innerHTML=`── Consonants by place ──<span class="leg-div-sa">व्यञ्जनानि · vyañjanāni</span>`;
+    footer.appendChild(d);return;
   }
   const d=document.createElement('div');d.className='leg';
-  d.innerHTML=`<div class="leg-dot" style="background:${item.col}"></div>${item.lbl}`;
+  d.innerHTML=`
+    <div class="leg-dot" style="background:${item.col}"></div>
+    <div class="leg-text-wrap">
+      <span class="leg-en">${item.en}</span>
+      <span class="leg-sa">${item.sa}</span>
+      <span class="leg-rom">${item.rom}</span>
+    </div>`;
   footer.appendChild(d);
 });
 
