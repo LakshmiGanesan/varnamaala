@@ -507,7 +507,7 @@ function buildChart(){
     }
     mEl.setAttribute('data-seg-idx', segIdx);
     gM.appendChild(mEl);
-    allSegs.push({el:mEl, idx:segIdx, cls:'vyanjana', place:r.place, type:r.type||'classified'});
+    allSegs.push({el:mEl, idx:segIdx, cls:'vyanjana', place:r.place, type:r.type||'classified', manner:r.manner});
 
     // Name band — also registered
     const nb=mk('path',{d:AP(K.nmI,K.nmO,s,e),fill:col,
@@ -742,7 +742,7 @@ let activeCat = null;
 
 function getMatches(cat){
   const s = new Set();
-  allSegs.forEach(({idx, cls, type, place})=>{
+  allSegs.forEach(({idx, cls, type, place, manner})=>{
     let h = false;
     if      (cat==='short')     h = cls==='svara' && type==='short';
     else if (cat==='long')      h = cls==='svara' && type==='long';
@@ -755,7 +755,7 @@ function getMatches(cat){
     else if (cat==='Labial')    h = cls==='vyanjana' && place==='Labial';
     else if (cat==='SemiVowel') h = cls==='vyanjana' && place==='SemiVowel';
     else if (cat==='Sibilant')  h = cls==='vyanjana' && place==='Sibilant';
-    else if (cat==='Aspirate')  h = cls==='vyanjana' && place==='Aspirate';
+    else if (cat==='Aspirate')  h = cls==='vyanjana' && (place==='Aspirate' || manner===2 || manner===4);
     if(h) s.add(idx);
   });
   return s;
@@ -811,7 +811,7 @@ const footer=document.getElementById('footer');
   {col:PC.Labial,    en:'Labial',     sa:'ओष्ठ्याः',   rom:'oṣṭhyāḥ',   cat:'Labial'},
   {col:PC.SemiVowel, en:'Semi-vowel', sa:'अन्तस्थाः',  rom:'antasthāḥ',  cat:'SemiVowel'},
   {col:PC.Sibilant,  en:'Sibilant',   sa:'ऊष्माणः',    rom:'ūṣmāṇaḥ',   cat:'Sibilant'},
-  {col:PC.Aspirate,  en:'Aspirate',   sa:'महाप्राणः',  rom:'mahāprāṇaḥ', cat:'Aspirate'},
+  {col:PC.Aspirate,  en:'Aspirated',  sa:'महाप्राणाः', rom:'mahāprāṇāḥ', cat:'Aspirate'},
 ].forEach(item=>{
   if(!item){
     const d=document.createElement('div');d.className='leg-div';
