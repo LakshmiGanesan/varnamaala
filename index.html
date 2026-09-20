@@ -40,6 +40,7 @@
   --mbnd-opacity: 0.22;
   --nm-opacity:   0.10;
   --v-opacity:    0.26;
+  --dim-op:       0.20;   /* opacity of NON-selected elements while a legend filter is active (keep within 0.10 – 0.25) */
 }
 
 /* ── LIGHT MODE ── */
@@ -170,8 +171,9 @@ footer{display:flex;flex-wrap:wrap;justify-content:center;
   100%{filter:brightness(1.5) drop-shadow(0 0  4px currentColor);}
 }
 .seg-pulse {animation:segPulse 0.55s ease-out forwards;}
-.seg-dim   {opacity:0.055!important;transition:opacity 0.25s;}
+.seg-dim   {opacity:var(--dim-op)!important;transition:opacity 0.25s;}
 .seg-bright{opacity:1!important;transition:opacity 0.25s;}
+[data-lbl-idx]{transition:opacity 0.25s;}   /* letters fade in step with their segments */
 
 #legendClear{
   display:none;margin:6px auto 0;
@@ -455,7 +457,7 @@ function AP(r1,r2,aS,aE){
 
 // ── BUILD
 let allSegs = [];
-function redraw(){ while(SV.firstChild) SV.removeChild(SV.firstChild); buildChart(); if(anatomyOpen) buildAnatomySVG(); }
+function redraw(){ while(SV.firstChild) SV.removeChild(SV.firstChild); buildChart(); if(anatomyOpen) buildAnatomySVG(); if(activeCat) applyHL(activeCat); }
 
 function buildChart(){
   allSegs = [];
@@ -776,7 +778,7 @@ function applyHL(cat){
   });
   document.querySelectorAll('[data-lbl-idx]').forEach(el=>{
     const i = parseInt(el.getAttribute('data-lbl-idx'));
-    el.style.opacity = m.has(i) ? '1' : '0.05';
+    el.style.opacity = m.has(i) ? '1' : cv('--dim-op');
   });
   document.querySelectorAll('.leg').forEach(el=>
     el.classList.toggle('active', el.dataset.cat===cat));
